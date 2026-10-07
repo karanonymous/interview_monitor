@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Interview Monitor</title>
+    <!-- Fixed relative path -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <h1>🛡️ AI Proctored Interview Monitor Dashboard</h1>
+    <hr>
+
+    <!-- Top Metrics -->
+    <h2>System Status</h2>
+    <ul>
+        <li>Camera Status: <b id="cam-status">Loading...</b></li>
+        <li>Face Count: <b id="face-count">Loading...</b></li>
+        <li>Head Direction: <b id="head-dir">Loading...</b></li>
+        <li>System Status: <b id="sys-status">Loading...</b></li>
+    </ul>
+
+    <h2>🎥 Live Feed</h2>
+    <img id="live-feed" src="/video_feed" alt="Live camera feed">
+
+    <hr>
+
+    <!-- Event Logs -->
+    <h2>📋 Recent Anomaly Events</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Anomaly Type</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody id="events-table-body">
+            <tr><td colspan="3">Loading events...</td></tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Evidence Gallery -->
+    <h2>📸 Captured Evidence Gallery</h2>
+    <div id="screenshot-gallery">
+        <p>Loading screenshots...</p>
+    </div>
+
+    <!-- Fixed relative path -->
+    <script src="/static/script.js"></script>
+</body>
+</html>

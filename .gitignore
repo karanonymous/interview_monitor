@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Generated interview data (may contain personal information)
+/logs/*
+/screenshots/*
+
+# Downloaded model
+/face_landmarker.task
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
