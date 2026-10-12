@@ -2,53 +2,135 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AI Interview Monitor</title>
-    <!-- Fixed relative path -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b1120">
+    <title>Interview Monitor</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="/" aria-label="Interview Monitor home">
+                <span class="brand-mark" aria-hidden="true">IM</span>
+                <span>Interview Monitor</span>
+            </a>
+            <div class="topbar-meta">
+                <span id="connection-status" class="connection-status" role="status">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    Connecting
+                </span>
+                <span class="updated-label">Updated <time id="updated-time">--:--:--</time></span>
+            </div>
+        </header>
 
-    <h1>🛡️ AI Proctored Interview Monitor Dashboard</h1>
-    <hr>
+        <main>
+            <section class="page-heading" aria-labelledby="page-title">
+                <div>
+                    <p class="eyebrow">OVERVIEW</p>
+                    <h1 id="page-title">Interview monitoring</h1>
+                    <p class="page-description">Live session status, detected activity, and captured evidence.</p>
+                </div>
+                <span class="live-label"><span class="live-dot" aria-hidden="true"></span> Live monitoring</span>
+            </section>
 
-    <!-- Top Metrics -->
-    <h2>System Status</h2>
-    <ul>
-        <li>Camera Status: <b id="cam-status">Loading...</b></li>
-        <li>Face Count: <b id="face-count">Loading...</b></li>
-        <li>Head Direction: <b id="head-dir">Loading...</b></li>
-        <li>System Status: <b id="sys-status">Loading...</b></li>
-    </ul>
+            <section class="metrics-grid" aria-label="Session status">
+                <article class="metric-card">
+                    <div class="metric-heading">
+                        <span class="metric-icon camera-icon" aria-hidden="true"></span>
+                        <span>Camera</span>
+                    </div>
+                    <p id="cam-status" class="metric-value" data-state="loading">Loading</p>
+                    <p class="metric-caption">Video input status</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-heading">
+                        <span class="metric-icon face-icon" aria-hidden="true"></span>
+                        <span>People detected</span>
+                    </div>
+                    <p id="face-count" class="metric-value" data-state="loading">--</p>
+                    <p class="metric-caption">Faces currently in frame</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-heading">
+                        <span class="metric-icon direction-icon" aria-hidden="true"></span>
+                        <span>Head direction</span>
+                    </div>
+                    <p id="head-dir" class="metric-value" data-state="loading">--</p>
+                    <p class="metric-caption">Most recently detected direction</p>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-heading">
+                        <span class="metric-icon system-icon" aria-hidden="true"></span>
+                        <span>System status</span>
+                    </div>
+                    <p id="sys-status" class="metric-value metric-value--status" data-state="loading">Loading</p>
+                    <p class="metric-caption">Current monitoring state</p>
+                </article>
+            </section>
 
-    <h2>🎥 Live Feed</h2>
-    <img id="live-feed" src="/video_feed" alt="Live camera feed">
+            <section class="content-grid" aria-label="Live monitoring">
+                <article class="panel feed-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">CAMERA</p>
+                            <h2>Live feed</h2>
+                        </div>
+                        <span id="feed-status" class="feed-state">
+                            <span class="live-dot" aria-hidden="true"></span>
+                            <span id="feed-status-label">Connecting</span>
+                        </span>
+                    </div>
+                    <div class="feed-frame">
+                        <img id="live-feed" src="/video_feed" alt="Live, unmirrored webcam feed">
+                        <span id="feed-overlay" class="feed-overlay">CONNECTING</span>
+                    </div>
+                    <p class="panel-footnote">The preview is displayed in its normal, unmirrored orientation.</p>
+                </article>
 
-    <hr>
+                <article class="panel events-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">ACTIVITY</p>
+                            <h2>Recent events</h2>
+                        </div>
+                        <span class="panel-count">Latest 10</span>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Event</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="events-table-body">
+                                <tr><td colspan="3" class="empty-state">Loading events...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </section>
 
-    <!-- Event Logs -->
-    <h2>📋 Recent Anomaly Events</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Timestamp</th>
-                <th>Anomaly Type</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody id="events-table-body">
-            <tr><td colspan="3">Loading events...</td></tr>
-        </tbody>
-    </table>
+            <section class="panel evidence-panel" aria-labelledby="evidence-title">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">RECORDS</p>
+                        <h2 id="evidence-title">Captured evidence</h2>
+                    </div>
+                    <span class="panel-count">Latest 8</span>
+                </div>
+                <div id="screenshot-gallery" class="evidence-grid" aria-live="polite">
+                    <p class="empty-state">Loading screenshots...</p>
+                </div>
+            </section>
+        </main>
 
-    <hr>
-
-    <!-- Evidence Gallery -->
-    <h2>📸 Captured Evidence Gallery</h2>
-    <div id="screenshot-gallery">
-        <p>Loading screenshots...</p>
+        <footer class="footer">
+            <span>Interview Monitor</span>
+            <span>Session dashboard</span>
+        </footer>
     </div>
-
-    <!-- Fixed relative path -->
     <script src="/static/script.js"></script>
 </body>
 </html>

@@ -1,7 +1,8 @@
-import csv, os, time
+import asyncio
+import csv, os
 from contextlib import asynccontextmanager
 from pathlib import Path
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from monitor import Monitor
@@ -56,11 +57,14 @@ def get_screenshots():
 
 
 @app.get("/video_feed")
-def video_feed():
-    def gen():
-        while True:
+async def video_feed(request: Request):
+    async def gen():
+        while (
+            not monitor.stop_event.is_set()
+            and not await request.is_disconnected()
+        ):
             j = monitor.get_jpeg()
             if j:
                 yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + j + b"\r\n"
-            time.sleep(0.05)
+            await asyncio.sleep(0.05)
     return StreamingResponse(gen(), media_type="multipart/x-mixed-replace; boundary=frame")
